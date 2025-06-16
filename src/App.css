@@ -1,38 +1,164 @@
-.App {
-  text-align: center;
+:root {
+  --bg: #ffffff;
+  --text: #222222;
+  --card: #f9f9f9;
+  --primary: #007bff;
+  --danger: #dc3545;
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+[data-theme='dark'] {
+  --bg: #121212;
+  --text: #f5f5f5;
+  --card: #1e1e1e;
+  --primary: #1e90ff;
+  --danger: #ff4d4d;
+  --shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 1rem;
+}
+
+.goal-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 12px;
+  padding: 16px;
+  margin: 16px 0;
+  border-radius: 12px;
+  background-color: var(--card);
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease;
+}
+
+.goal-card:hover {
+  transform: translateY(-4px);
+}
+
+.goal-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+input,
+button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  outline: none;
+  transition: background-color 0.2s ease;
+}
+
+input {
+  background: #f0f0f0;
+  color: #000;
+}
+
+[data-theme='dark'] input {
+  background: #2c2c2c;
+  color: #fff;
+}
+
+button {
+  background-color: var(--primary);
+  color: #fff;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button:last-child {
+  background-color: var(--danger);
+}
+
+.progress-bar {
+  height: 12px;
+  width: 100%;
+  background-color: #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.fill {
+  height: 100%;
+  background-color: var(--primary);
+  transition: width 0.4s ease;
+}
+
+.transactions {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.transactions ul {
+  padding-left: 20px;
+}
+
+.transactions li {
+  list-style: square;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+.congrats-popup {
+  background-color: #4bb543;
   color: white;
+  padding: 12px 20px;
+  margin: 10px auto;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  animation: pop-in 0.5s ease-out;
+  text-align: center;
+  max-width: 300px;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@keyframes pop-in {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* 🔁 Responsive Styling */
+@media (max-width: 600px) {
+  .goal-card {
+    padding: 14px;
+    margin: 12px 8px;
+  }
+
+  input,
+  button {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 8px;
+  }
+
+  button:last-child {
+    margin-bottom: 8px;
   }
 }
