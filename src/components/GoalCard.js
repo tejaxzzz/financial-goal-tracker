@@ -17,6 +17,34 @@ function GoalCard({ goal }) {
     setIsEditing(false);
   };
 
+  const exportToCSV = () => {
+    if (!goal.transactions || goal.transactions.length === 0) {
+      alert("No transactions to export!");
+      return;
+    }
+
+    const headers = ["Title", "Amount", "Date"];
+    const rows = goal.transactions.map(txn => [
+      goal.title,
+      txn.amount,
+      txn.date
+    ]);
+
+    const csvContent = [headers, ...rows]
+      .map(row => row.join(","))
+      .join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `${goal.title.replace(/\s+/g, '_')}_transactions.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const percentage = Math.min(
     Math.round((goal.currentAmount / goal.targetAmount) * 100),
     100
@@ -51,14 +79,14 @@ function GoalCard({ goal }) {
           </div>
           <p>{percentage}% Complete</p>
 
-          {/* ✅ 🎉 Celebration message when goal is achieved */}
+          {/* 🎉 Celebration when goal is achieved */}
           {isGoalCompleted && (
             <div className="congrats-popup">
               🎉 Congratulations! You achieved your goal! 🎉
             </div>
           )}
 
-          {/* ✅ Transaction Log Section */}
+          {/* 💸 Transactions */}
           {goal.transactions && goal.transactions.length > 0 && (
             <div className="transactions">
               <h4>Transaction Log:</h4>
@@ -72,9 +100,10 @@ function GoalCard({ goal }) {
             </div>
           )}
 
-          {/* ✅ Buttons */}
+          {/* 🧩 Buttons */}
           <button onClick={() => setIsEditing(true)}>✏️ Edit</button>
           <button onClick={() => deleteGoal(goal.id)}>🗑️ Delete</button>
+          <button onClick={exportToCSV}>📤 Export CSV</button>
         </>
       )}
     </div>
